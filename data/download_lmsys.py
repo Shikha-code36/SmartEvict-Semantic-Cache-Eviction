@@ -4,13 +4,15 @@ Produces the same record schema the simulator consumes:
     [{"t": float, "text": str, "response_tokens": int}, ...]
 
 Usage:
-    pip install datasets
+    pip install datasets python-dotenv
+    # put HF_TOKEN=hf_xxx in a .env file in the repo root (gitignored)
     python data/download_lmsys.py --n 50000 --out data/lmsys_trace.json
 
 Note: LMSYS-Chat-1M requires accepting its license on the HF hub first.
 """
 import argparse
 import json
+import os
 
 
 def main():
@@ -20,8 +22,15 @@ def main():
     ap.add_argument("--out", default="data/lmsys_trace.json")
     args = ap.parse_args()
 
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
+
     from datasets import load_dataset
-    ds = load_dataset(args.dataset, split="train", streaming=True)
+    ds = load_dataset(args.dataset, split="train", streaming=True,
+                      token=os.environ.get("HF_TOKEN"))
 
     records, t = [], 0.0
     for row in ds:
