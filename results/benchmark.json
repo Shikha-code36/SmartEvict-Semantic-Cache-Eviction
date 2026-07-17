@@ -46,21 +46,21 @@
         "tokens_saved": 262137,
         "tokens_saved_frac": 0.06818538291964442,
         "evictions": 17612,
-        "wall_s": 2.78
+        "wall_s": 2.66
       },
       "lru": {
         "hit_ratio": 0.1123,
         "tokens_saved": 274067,
         "tokens_saved_frac": 0.07128853744659544,
         "evictions": 17354,
-        "wall_s": 2.72
+        "wall_s": 2.6
       },
       "learned": {
         "hit_ratio": 0.1214,
         "tokens_saved": 324926,
         "tokens_saved_frac": 0.08451765195507839,
         "evictions": 17172,
-        "wall_s": 4.71,
+        "wall_s": 4.53,
         "fallbacks": 0,
         "decisions": 17172
       },
@@ -69,7 +69,7 @@
         "tokens_saved": 335363,
         "tokens_saved_frac": 0.0872324569674663,
         "evictions": 17169,
-        "wall_s": 3.03
+        "wall_s": 2.98
       }
     }
   }
