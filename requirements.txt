@@ -1,2 +1,3 @@
 numpy>=1.24
 faiss-cpu>=1.8  # optional: NumPy fallback store used if absent
+python-dotenv>=1.0  # optional: loads HF_TOKEN from .env for data/download_lmsys.py
