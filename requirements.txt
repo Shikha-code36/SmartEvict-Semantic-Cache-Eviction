@@ -7,3 +7,4 @@ datasets>=2.0  # optional: needed by smartevict/data/download_lmsys.py
 python-dotenv>=1.0  # optional: loads HF_TOKEN from .env for download_lmsys.py
 sentence-transformers>=3.0  # optional: real embeddings for benchmark --embedder minilm
 gptcache>=0.1.44  # optional: only needed for smartevict/policies/gptcache_adapter.py
+matplotlib>=3.8  # optional: only needed for paper/figures/make_figures.py

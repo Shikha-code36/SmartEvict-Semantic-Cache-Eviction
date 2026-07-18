@@ -1,0 +1,225 @@
+{
+  "real_trace": {
+    "config": {
+      "n_requests": 50000,
+      "cache_size": 50,
+      "threshold": 0.8,
+      "k_tail": 8,
+      "embedder": "hashing",
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    "results": {
+      "fifo": {
+        "hit_ratio": 0.16085,
+        "tokens_saved": 1363634,
+        "tokens_saved_frac": 0.22879745906253435,
+        "evictions": 16733,
+        "wall_s": 0.42
+      },
+      "lru": {
+        "hit_ratio": 0.1701,
+        "tokens_saved": 1465789,
+        "tokens_saved_frac": 0.24593754535440826,
+        "evictions": 16548,
+        "wall_s": 0.41
+      },
+      "gdsf": {
+        "hit_ratio": 0.1676,
+        "tokens_saved": 1504419,
+        "tokens_saved_frac": 0.2524190835410373,
+        "evictions": 16598,
+        "wall_s": 0.46
+      },
+      "cost_weighted_recency": {
+        "hit_ratio": 0.17275,
+        "tokens_saved": 1553436,
+        "tokens_saved_frac": 0.26064340550049875,
+        "evictions": 16495,
+        "wall_s": 0.48
+      },
+      "oracle": {
+        "hit_ratio": 0.1949,
+        "tokens_saved": 1757375,
+        "tokens_saved_frac": 0.2948613298143206,
+        "evictions": 16052,
+        "wall_s": 0.84
+      },
+      "learned_per_seed": [
+        {
+          "seed": 0,
+          "hit_ratio": 0.184,
+          "tokens_saved": 1527354,
+          "tokens_saved_frac": 0.2562672346751387,
+          "evictions": 16270,
+          "wall_s": 2.25,
+          "fallbacks": 0,
+          "decisions": 16270
+        },
+        {
+          "seed": 1,
+          "hit_ratio": 0.1838,
+          "tokens_saved": 1532873,
+          "tokens_saved_frac": 0.25719324060969745,
+          "evictions": 16274,
+          "wall_s": 2.28,
+          "fallbacks": 0,
+          "decisions": 16274
+        },
+        {
+          "seed": 2,
+          "hit_ratio": 0.1849,
+          "tokens_saved": 1541070,
+          "tokens_saved_frac": 0.2585685750263632,
+          "evictions": 16252,
+          "wall_s": 2.29,
+          "fallbacks": 0,
+          "decisions": 16252
+        },
+        {
+          "seed": 3,
+          "hit_ratio": 0.17965,
+          "tokens_saved": 1494927,
+          "tokens_saved_frac": 0.25082646742746023,
+          "evictions": 16357,
+          "wall_s": 2.2,
+          "fallbacks": 0,
+          "decisions": 16357
+        },
+        {
+          "seed": 4,
+          "hit_ratio": 0.1847,
+          "tokens_saved": 1522946,
+          "tokens_saved_frac": 0.2555276379801695,
+          "evictions": 16256,
+          "wall_s": 2.27,
+          "fallbacks": 0,
+          "decisions": 16256
+        },
+        {
+          "seed": 5,
+          "hit_ratio": 0.1849,
+          "tokens_saved": 1505263,
+          "tokens_saved_frac": 0.2525606941604915,
+          "evictions": 16252,
+          "wall_s": 2.27,
+          "fallbacks": 0,
+          "decisions": 16252
+        },
+        {
+          "seed": 6,
+          "hit_ratio": 0.18205,
+          "tokens_saved": 1534268,
+          "tokens_saved_frac": 0.25742730081602283,
+          "evictions": 16309,
+          "wall_s": 2.28,
+          "fallbacks": 0,
+          "decisions": 16309
+        },
+        {
+          "seed": 7,
+          "hit_ratio": 0.185,
+          "tokens_saved": 1537159,
+          "tokens_saved_frac": 0.2579123675231816,
+          "evictions": 16250,
+          "wall_s": 2.26,
+          "fallbacks": 0,
+          "decisions": 16250
+        },
+        {
+          "seed": 8,
+          "hit_ratio": 0.18215,
+          "tokens_saved": 1522852,
+          "tokens_saved_frac": 0.2555118661813203,
+          "evictions": 16307,
+          "wall_s": 2.32,
+          "fallbacks": 0,
+          "decisions": 16307
+        },
+        {
+          "seed": 9,
+          "hit_ratio": 0.18465,
+          "tokens_saved": 1514267,
+          "tokens_saved_frac": 0.25407143114812825,
+          "evictions": 16257,
+          "wall_s": 2.26,
+          "fallbacks": 0,
+          "decisions": 16257
+        },
+        {
+          "seed": 10,
+          "hit_ratio": 0.18495,
+          "tokens_saved": 1540947,
+          "tokens_saved_frac": 0.258547937459784,
+          "evictions": 16251,
+          "wall_s": 2.25,
+          "fallbacks": 0,
+          "decisions": 16251
+        },
+        {
+          "seed": 11,
+          "hit_ratio": 0.18445,
+          "tokens_saved": 1503303,
+          "tokens_saved_frac": 0.25223183537597704,
+          "evictions": 16261,
+          "wall_s": 2.29,
+          "fallbacks": 0,
+          "decisions": 16261
+        },
+        {
+          "seed": 12,
+          "hit_ratio": 0.18205,
+          "tokens_saved": 1510556,
+          "tokens_saved_frac": 0.25344878066377463,
+          "evictions": 16309,
+          "wall_s": 2.26,
+          "fallbacks": 0,
+          "decisions": 16309
+        },
+        {
+          "seed": 13,
+          "hit_ratio": 0.1846,
+          "tokens_saved": 1524808,
+          "tokens_saved_frac": 0.2558400538254582,
+          "evictions": 16258,
+          "wall_s": 2.26,
+          "fallbacks": 0,
+          "decisions": 16258
+        },
+        {
+          "seed": 14,
+          "hit_ratio": 0.1792,
+          "tokens_saved": 1464346,
+          "tokens_saved_frac": 0.2456954314635642,
+          "evictions": 16366,
+          "wall_s": 2.22,
+          "fallbacks": 0,
+          "decisions": 16366
+        }
+      ],
+      "learned_agg": {
+        "tokens_saved_mean": 1518462.6,
+        "tokens_saved_std": 19914.899630845914,
+        "hit_ratio_mean": 0.1834033333333333,
+        "hit_ratio_std": 0.0018741635171160742,
+        "vs_lru_pct_mean": 3.5935322205310576,
+        "vs_lru_pct_std": 1.3586470925109886
+      }
+    }
+  }
+}
