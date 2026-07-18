@@ -1,4 +1,26 @@
-# semantic-cache-eviction
+# SmartEvict
+
+> A learned, cost-aware eviction policy for semantic LLM caches.
+
+---
+
+## Why SmartEvict?
+
+Traditional semantic caches use heuristic eviction policies such as LRU and FIFO. These policies only consider *when* an entry was last accessed, not *how expensive* it would be to regenerate.
+
+SmartEvict predicts which cache entries are worth keeping by considering:
+
+- Regeneration cost
+- Access history
+- Semantic reuse patterns
+- Response size
+
+### Benefits
+
+- Higher regeneration-token savings
+- Lower latency
+- Reduced LLM cost
+- Safe fallback to classical LRU
 
 Semantic LLM caches (GPTCache, LangChain's cache, Redis semantic caching)
 evict by recency alone: LRU treats a cheap cached FAQ answer and an
