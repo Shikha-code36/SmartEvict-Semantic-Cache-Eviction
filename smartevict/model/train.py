@@ -22,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 
 from smartevict.simulator.cache_sim import run_simulation
-from smartevict.features.extract import candidates_features, N_FEATURES
+from smartevict.features.extract import candidates_features
 from smartevict.policies.eviction import LRUPolicy
 from smartevict.model.dueling_net import DuelingEvictionNet
 
@@ -85,7 +85,11 @@ class RecordingLRUPolicy(LRUPolicy):
 
 # ---------------------------------------------------------------------------
 def build_dataset(records, emb, max_size, thr, k_tail,
-                  gamma=0.999, horizon=5000.0, future_matches=None):
+                  gamma=0.999, horizon=5000.0, future_matches=None,
+                  feature_indices=None):
+    """feature_indices: optional list of column indices into the 6-feature
+    vector (see smartevict/features/extract.py FEATURE_NAMES) to keep, for
+    feature-ablation studies. None = all 6 features."""
     if future_matches is None:
         future_matches = compute_future_matches(emb, thr)
     req_times = np.array([r["t"] for r in records])
@@ -101,13 +105,21 @@ def build_dataset(records, emb, max_size, thr, k_tail,
             y.append(np.log1p(demand_at(future_matches, req_times, req_tokens,
                                         ri, now, gamma, horizon)))
             groups.append(gi)
-    return (np.stack(X).astype(np.float32), np.array(y, np.float32),
-            np.array(groups), future_matches)
+    X = np.stack(X).astype(np.float32)
+    if feature_indices is not None:
+        X = X[:, feature_indices]
+    return X, np.array(y, np.float32), np.array(groups), future_matches
 
 
 def train_model(X, y, groups, epochs=8, batch_decisions=256,
-                lr=1e-3, seed=0, val_frac=0.15, verbose=True):
-    net = DuelingEvictionNet(n_features=N_FEATURES, seed=seed)
+                lr=1e-3, seed=0, val_frac=0.15, verbose=True, net_cls=None):
+    """net_cls: model class to train, e.g. LinearEvictionNet for the
+    architecture ablation (see smartevict/model/linear_net.py). Must expose
+    the same q_values/train_batch/save/load interface as DuelingEvictionNet.
+    Defaults to DuelingEvictionNet."""
+    if net_cls is None:
+        net_cls = DuelingEvictionNet
+    net = net_cls(n_features=X.shape[1], seed=seed)
     rng = np.random.default_rng(seed)
     ug = np.unique(groups)
     rng.shuffle(ug)

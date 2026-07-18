@@ -1,0 +1,205 @@
+{
+  "config": {
+    "n_requests": 20000,
+    "cache_size": 400,
+    "threshold": 0.8,
+    "k_tail": 8,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "trace": null
+  },
+  "lru_tokens_saved": 887305,
+  "variants": {
+    "full (all 6)": {
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "cost",
+        "hits",
+        "idle",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 940767.3333333334,
+      "tokens_saved_std": 3547.056745465958,
+      "vs_lru_pct_mean": 6.025248740098761,
+      "vs_lru_pct_std": 0.39975619944280866
+    },
+    "drop-age": {
+      "feature_indices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "feature_names": [
+        "cost",
+        "hits",
+        "idle",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 936338.0,
+      "tokens_saved_std": 4702.758126886816,
+      "vs_lru_pct_mean": 5.526059246820428,
+      "vs_lru_pct_std": 0.5300046913842223
+    },
+    "drop-cost": {
+      "feature_indices": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "hits",
+        "idle",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 923729.6666666666,
+      "tokens_saved_std": 1902.9619602667372,
+      "vs_lru_pct_mean": 4.105089756810409,
+      "vs_lru_pct_std": 0.21446537101297933
+    },
+    "drop-hits": {
+      "feature_indices": [
+        0,
+        1,
+        3,
+        4,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "cost",
+        "idle",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 950425.6666666666,
+      "tokens_saved_std": 7181.767485948165,
+      "vs_lru_pct_mean": 7.113750814733,
+      "vs_lru_pct_std": 0.8093910758925242
+    },
+    "drop-idle": {
+      "feature_indices": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "cost",
+        "hits",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 940429.6666666666,
+      "tokens_saved_std": 1030.101720974951,
+      "vs_lru_pct_mean": 5.9871934302935985,
+      "vs_lru_pct_std": 0.11609330737175741
+    },
+    "drop-mean_gap": {
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "cost",
+        "hits",
+        "idle",
+        "staleness"
+      ],
+      "tokens_saved_mean": 938421.3333333334,
+      "tokens_saved_std": 1657.8118778143141,
+      "vs_lru_pct_mean": 5.760852619260945,
+      "vs_lru_pct_std": 0.1868367559987088
+    },
+    "drop-staleness": {
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "feature_names": [
+        "age",
+        "cost",
+        "hits",
+        "idle",
+        "mean_gap"
+      ],
+      "tokens_saved_mean": 938083.3333333334,
+      "tokens_saved_std": 3507.7320624902673,
+      "vs_lru_pct_mean": 5.7227597425162005,
+      "vs_lru_pct_std": 0.39532427547351123
+    },
+    "cost-only": {
+      "feature_indices": [
+        1
+      ],
+      "feature_names": [
+        "cost"
+      ],
+      "tokens_saved_mean": 891081.0,
+      "tokens_saved_std": 0.0,
+      "vs_lru_pct_mean": 0.425558291680983,
+      "vs_lru_pct_std": 0.0
+    },
+    "recency-only (age+idle)": {
+      "feature_indices": [
+        0,
+        3
+      ],
+      "feature_names": [
+        "age",
+        "idle"
+      ],
+      "tokens_saved_mean": 892019.0,
+      "tokens_saved_std": 3699.360305061764,
+      "vs_lru_pct_mean": 0.5312716596886036,
+      "vs_lru_pct_std": 0.4169209353110534
+    },
+    "no-cost (5 feats)": {
+      "feature_indices": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "feature_names": [
+        "age",
+        "hits",
+        "idle",
+        "mean_gap",
+        "staleness"
+      ],
+      "tokens_saved_mean": 923729.6666666666,
+      "tokens_saved_std": 1902.9619602667372,
+      "vs_lru_pct_mean": 4.105089756810409,
+      "vs_lru_pct_std": 0.21446537101297933
+    }
+  }
+}

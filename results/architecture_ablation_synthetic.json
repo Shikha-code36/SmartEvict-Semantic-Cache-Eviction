@@ -1,0 +1,31 @@
+{
+  "config": {
+    "n_requests": 20000,
+    "cache_size": 400,
+    "threshold": 0.8,
+    "k_tail": 8,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "trace": null
+  },
+  "lru_tokens_saved": 887305,
+  "architectures": {
+    "dueling (current)": {
+      "n_params": 9474,
+      "tokens_saved_mean": 940767.3333333334,
+      "tokens_saved_std": 3547.056745465958,
+      "vs_lru_pct_mean": 6.025248740098761,
+      "vs_lru_pct_std": 0.39975619944280866
+    },
+    "linear": {
+      "n_params": 7,
+      "tokens_saved_mean": 927045.3333333334,
+      "tokens_saved_std": 16071.86822439203,
+      "vs_lru_pct_mean": 4.4787681049169485,
+      "vs_lru_pct_std": 1.8113127080758022
+    }
+  }
+}

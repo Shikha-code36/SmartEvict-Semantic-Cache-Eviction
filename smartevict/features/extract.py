@@ -21,6 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 N_FEATURES = 6
+FEATURE_NAMES = ["age", "cost", "hits", "idle", "mean_gap", "staleness"]
 
 
 def entry_features(e, now: float) -> np.ndarray:
