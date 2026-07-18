@@ -30,6 +30,22 @@ from policies.eviction import LRUPolicy, FIFOPolicy, LearnedPolicy, OraclePolicy
 from model.train import build_dataset, train_model, compute_future_matches  # noqa: E402
 
 
+def evaluate_one(records, emb, max_size, thr, pol, hooks=None):
+    t0 = time.time()
+    res = run_simulation(records, emb, max_size, thr, pol, hooks=hooks)
+    row = {
+        "hit_ratio": res.hit_ratio,
+        "tokens_saved": res.tokens_saved,
+        "tokens_saved_frac": res.tokens_saved_frac,
+        "evictions": res.evictions,
+        "wall_s": round(time.time() - t0, 2),
+    }
+    if isinstance(pol, LearnedPolicy):
+        row["fallbacks"] = pol.fallbacks
+        row["decisions"] = pol.decisions
+    return row
+
+
 def evaluate(records, emb, max_size, thr, k_tail, net, future_matches):
     req_times = np.array([r["t"] for r in records])
     req_tokens = np.array([r["response_tokens"] for r in records])
@@ -42,18 +58,7 @@ def evaluate(records, emb, max_size, thr, k_tail, net, future_matches):
             (p := OraclePolicy(future_matches, req_times, req_tokens, k_tail=k_tail)), p),
     }.items():
         pol, hooks = factory()
-        t0 = time.time()
-        res = run_simulation(records, emb, max_size, thr, pol, hooks=hooks)
-        rows[name] = {
-            "hit_ratio": res.hit_ratio,
-            "tokens_saved": res.tokens_saved,
-            "tokens_saved_frac": res.tokens_saved_frac,
-            "evictions": res.evictions,
-            "wall_s": round(time.time() - t0, 2),
-        }
-        if name == "learned":
-            rows[name]["fallbacks"] = pol.fallbacks
-            rows[name]["decisions"] = pol.decisions
+        rows[name] = evaluate_one(records, emb, max_size, thr, pol, hooks=hooks)
     return rows
 
 
@@ -79,9 +84,57 @@ def run_regime(tag, records, args, out):
     X, y, groups, _ = build_dataset(tr_rec, tr_emb, args.cache_size, args.threshold,
                                     args.k_tail, gamma=args.gamma, horizon=args.horizon)
     print(f"[{tag}] {len(np.unique(groups))} eviction decisions, {len(X)} candidate samples")
-    net, hist = train_model(X, y, groups, epochs=args.epochs, verbose=True)
-
     fm_test = compute_future_matches(te_emb, args.threshold)
+
+    if args.seeds:
+        # fifo/lru/oracle are deterministic (no learned component), so compute
+        # them once; only the learned policy varies with the training seed.
+        base_rows = {}
+        for name, factory in {
+            "fifo": lambda: (FIFOPolicy(), None),
+            "lru": lambda: (LRUPolicy(), None),
+            "oracle": lambda: ((p := OraclePolicy(
+                fm_test, np.array([r["t"] for r in te_rec]),
+                np.array([r["response_tokens"] for r in te_rec]), k_tail=args.k_tail)), p),
+        }.items():
+            pol, hooks = factory()
+            base_rows[name] = evaluate_one(te_rec, te_emb, args.cache_size, args.threshold,
+                                           pol, hooks=hooks)
+
+        seed_runs = []
+        net = None
+        for seed in args.seeds:
+            net, _ = train_model(X, y, groups, epochs=args.epochs, seed=seed, verbose=False)
+            row = evaluate_one(te_rec, te_emb, args.cache_size, args.threshold,
+                               LearnedPolicy(net, k_tail=args.k_tail))
+            seed_runs.append({"seed": seed, **row})
+            print(f"  seed {seed}: learned hit={row['hit_ratio']:.4f} "
+                  f"tokens_saved={row['tokens_saved']:>10,}")
+
+        tokens = np.array([r["tokens_saved"] for r in seed_runs], dtype=np.float64)
+        hits = np.array([r["hit_ratio"] for r in seed_runs], dtype=np.float64)
+        base = base_rows["lru"]["tokens_saved"]
+        deltas = (tokens / base - 1) * 100 if base else np.full_like(tokens, float("nan"))
+        learned_agg = {
+            "tokens_saved_mean": float(tokens.mean()), "tokens_saved_std": float(tokens.std()),
+            "hit_ratio_mean": float(hits.mean()), "hit_ratio_std": float(hits.std()),
+            "vs_lru_pct_mean": float(deltas.mean()), "vs_lru_pct_std": float(deltas.std()),
+        }
+        rows = {**base_rows, "learned_per_seed": seed_runs, "learned_agg": learned_agg}
+        out[tag] = {"config": {"n_requests": len(records), "cache_size": args.cache_size,
+                               "threshold": args.threshold, "k_tail": args.k_tail,
+                               "embedder": args.embedder, "seeds": args.seeds},
+                    "results": rows}
+        print(f"[{tag}] learned vs LRU across {len(args.seeds)} seeds: "
+              f"{learned_agg['vs_lru_pct_mean']:+.2f}% +/- {learned_agg['vs_lru_pct_std']:.2f}%")
+        for name in ("fifo", "lru", "oracle"):
+            r = base_rows[name]
+            delta = (r["tokens_saved"] / base - 1) * 100 if base else float("nan")
+            print(f"  {name:8s} hit={r['hit_ratio']:.4f}  tokens_saved={r['tokens_saved']:>10,}"
+                  f"  vs LRU: {delta:+.2f}%")
+        return net
+
+    net, hist = train_model(X, y, groups, epochs=args.epochs, verbose=True)
     print(f"[{tag}] evaluating policies on held-out trace")
     rows = evaluate(te_rec, te_emb, args.cache_size, args.threshold,
                     args.k_tail, net, fm_test)
@@ -116,6 +169,10 @@ def main():
                          "minilm: sentence-transformers/all-MiniLM-L6-v2, real semantic "
                          "embeddings, requires `pip install sentence-transformers` + "
                          "one-time model download.")
+    ap.add_argument("--seeds", type=int, nargs="+", default=None,
+                    help="if given, retrain the learned net once per seed (fifo/lru/oracle "
+                         "are deterministic so computed once) and report mean +/- std vs LRU "
+                         "instead of a single run, e.g. --seeds 0 1 2 3 4")
     ap.add_argument("--out", type=str, default="results/benchmark.json")
     ap.add_argument("--model-out", type=str, default=None,
                     help="where to save the trained net (default: derived from --out, "
