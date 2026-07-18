@@ -1,10 +1,20 @@
 # semantic-cache-eviction
 
-A drop-in, **learned eviction policy for semantic LLM caches**, replacing
-naive LRU/FIFO with a Cold-RL-style tiny model (arXiv:2508.12485 pattern:
-K-tail candidate sampling + tiny dueling network + hard fallback to a
-classical policy). Trained offline on replayed traces, safe by default,
-benchmarked honestly against LRU/FIFO and a clairvoyant oracle.
+Semantic LLM caches (GPTCache, LangChain's cache, Redis semantic caching)
+evict by recency alone: LRU treats a cheap cached FAQ answer and an
+expensive multi-page cached analysis as equally disposable the moment
+neither has been touched in a while. But they aren't equally disposable —
+one costs orders of magnitude more to regenerate than the other. This
+project replaces recency-only eviction with a **learned, cost-aware
+policy**: a ~9.5K-param model that predicts which entries are worth
+keeping warm based on the regeneration cost they'd save if reused, not
+just how recently they were touched.
+
+It follows a Cold-RL-style pattern (arXiv:2508.12485: K-tail candidate
+sampling + tiny dueling network + hard fallback to a classical policy),
+trains offline on replayed traces, is safe by default (falls back to LRU
+exactly if the model is absent or errors), and is benchmarked honestly
+against LRU/FIFO and a clairvoyant oracle rather than against itself.
 
 Scope note: this project decides **which cached entries to keep warm**. It
 deliberately does *not* touch semantic-match correctness (whether a cached
@@ -17,12 +27,13 @@ size 400): the learned policy saves **+3.6% to +6.5% more regeneration
 tokens than LRU** depending on duplicate density, capturing ~40–65% of the
 clairvoyant-oracle headroom, with **zero fallbacks fired**.
 
-On a real 50K-request trace from LMSYS-Chat-1M (held-out 20K-request tail):
-with the local `HashingEmbedder`, the learned policy saves **+18.6% more
-regeneration tokens than LRU** (oracle ceiling +22.4%). Re-run with real
-**MiniLM sentence embeddings** (`--embedder minilm`), the gain is
-**+15.8%** and the gap to the oracle (+15.7%) essentially closes. Full
-tables and all caveats: [results/RESULTS.md](results/RESULTS.md).
+On a real 50K-request trace from LMSYS-Chat-1M (held-out 20K-request tail),
+averaged across 5 training seeds (fifo/lru/oracle are deterministic, so
+only the learned net varies): **+16.7% ± 1.1%** more regeneration tokens
+than LRU with the local `HashingEmbedder`, and **+17.0% ± 1.4%** with real
+**MiniLM sentence embeddings** (`--embedder minilm`) — where the gap to the
+clairvoyant oracle ceiling essentially closes. Full tables and all caveats:
+[results/RESULTS.md](results/RESULTS.md).
 
 ## Quickstart — use the wrapper
 
@@ -109,6 +120,15 @@ This writes to `results/benchmark_minilm.json` and
 `results/minilm_learned_policy.npz` rather than the default filenames, so it
 won't overwrite the hashing-embedder results/model.
 
+To check the result isn't a lucky single seed, add `--seeds`: fifo/lru/oracle
+are deterministic so they're computed once, and only the learned net is
+retrained per seed, reporting mean ± std vs LRU:
+
+```bash
+python benchmark/run_benchmark.py --trace data/lmsys_trace.json --seeds 0 1 2 3 4 --out results/benchmark_multiseed_hashing.json
+python benchmark/run_benchmark.py --trace data/lmsys_trace.json --embedder minilm --seeds 0 1 2 3 4 --out results/benchmark_multiseed_minilm.json
+```
+
 ## How it works (Cold-RL → semantic cache mapping)
 
 | Cold-RL (NGINX) | Here |
@@ -147,11 +167,12 @@ results/     benchmark output + honest write-up (RESULTS.md)
 
 - The synthetic-data tables still only use `HashingEmbedder`. The LMSYS
   real-trace benchmark has now been run with both `HashingEmbedder` and
-  real MiniLM sentence embeddings (`--embedder minilm`) — see
-  [results/RESULTS.md](results/RESULTS.md) for the comparison.
-- LMSYS results (both embedders) are from a single trace/seed/split;
-  re-run across a few seeds before treating +18.6%/+15.8% as a stable
-  effect size.
+  real MiniLM sentence embeddings (`--embedder minilm`), each averaged
+  across 5 training seeds — see [results/RESULTS.md](results/RESULTS.md)
+  for the full comparison.
+- LMSYS results are still from a single trace/split (only the training
+  seed is varied, not the data); a different 50K-request sample or a
+  different train/test split isn't yet covered.
 - The model generalizes across duplicate-density regimes here, but was not
   tested across *time-scale* shifts (e.g., traces with very different
   arrival rates); features use log-scaled absolute times, so a per-deployment
