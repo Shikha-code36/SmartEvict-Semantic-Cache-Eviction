@@ -18,17 +18,21 @@ faiss = ["faiss-cpu>=1.8"]
 lmsys = ["datasets>=2.0", "python-dotenv>=1.0"]
 minilm = ["sentence-transformers>=3.0"]
 gptcache = ["gptcache>=0.1.44"]
+paper = ["matplotlib>=3.8"]
 all = [
     "faiss-cpu>=1.8",
     "datasets>=2.0",
     "python-dotenv>=1.0",
     "sentence-transformers>=3.0",
     "gptcache>=0.1.44",
+    "matplotlib>=3.8",
 ]
 
 [project.scripts]
 smartevict-benchmark = "smartevict.benchmark.run_benchmark:main"
 smartevict-download-lmsys = "smartevict.data.download_lmsys:main"
+smartevict-download-wildchat = "smartevict.data.download_wildchat:main"
+smartevict-download-bitext = "smartevict.data.download_bitext:main"
 
 [tool.setuptools.packages.find]
 include = ["smartevict*"]

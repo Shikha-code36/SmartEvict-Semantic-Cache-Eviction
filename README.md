@@ -182,6 +182,16 @@ respectively on the same trace. Full tables, baselines, and all caveats:
 hyperparameter ablations digging into *why*, see
 [results/ABLATIONS.md](results/ABLATIONS.md).
 
+Two more real traces (WildChat-1M, Bitext customer support) plus a
+cache-size sweep extend this into a general finding: **GDSF's advantage
+over the learned policy tracks a measurable workload property** — the
+fraction of eviction candidates never previously reused — consistently
+across all three real traces, with cache pressure as a second,
+independent factor. `./reproduce.sh` regenerates every table behind this
+finding from scratch. A full write-up (methods, threats to validity,
+discussion) is available as a preprint: *link to be added on arXiv
+publication.*
+
 ## Install
 
 Not published on PyPI (still under active benchmarking/validation) — install
@@ -286,6 +296,13 @@ equivalently `python -m smartevict.benchmark.run_benchmark`.)
 
 Outputs `results/benchmark.json` + `results/learned_policy.npz`.
 
+**To reproduce every table across all four workloads and all ablations**
+in one step, run `./reproduce.sh` from the repo root — it's idempotent,
+so it's safe to rerun after an interruption (e.g. while waiting on
+LMSYS-Chat-1M's Hugging Face access approval, see below). See
+[datasets.md](datasets.md) for what each of the four evaluated workloads
+is and how to get it individually.
+
 ### Run on real data (LMSYS-Chat-1M)
 
 `lmsys/lmsys-chat-1m` is a **gated dataset** — installing the `lmsys` extra
@@ -337,6 +354,20 @@ smartevict-benchmark --trace data/lmsys_trace.json --seeds 0 1 2 3 4 --out resul
 smartevict-benchmark --trace data/lmsys_trace.json --embedder minilm --seeds 0 1 2 3 4 --out results/benchmark_multiseed_minilm.json
 ```
 
+### Run on other real workloads (WildChat-1M, Bitext customer support)
+
+Two more real traces are used in the paper (cache-pressure sweep and the
+reuse-density cross-dataset comparison) — neither is gated, so no HF
+access request is needed:
+
+```bash
+smartevict-download-wildchat --n 50000 --out data/wildchat_trace.json
+smartevict-download-bitext --out data/bitext_trace.json
+```
+
+See [datasets.md](datasets.md) for what each dataset is, how it's
+preprocessed, and which paper section it feeds into.
+
 ## How it works (Cold-RL → semantic cache mapping)
 
 | Cold-RL (NGINX) | Here |
@@ -362,8 +393,10 @@ for the full algorithm.
 
 ```
 pyproject.toml       package metadata; `pip install -e .` / `.[all]`
+reproduce.sh          single entry point: regenerates every table + figure below
+datasets.md           what each of the 4 evaluated workloads is + how to get it
 smartevict/
-  data/         synthetic workload generator + LMSYS download script
+  data/         synthetic workload generator + LMSYS/WildChat/Bitext download scripts
   simulator/    bounded semantic cache simulator, replay harness
   features/     embeddings (hashing / sentence-transformers) + 6-feature extractor
   model/        NumPy dueling net + linear net (architecture ablation) +
@@ -374,6 +407,11 @@ smartevict/
 tests/          sanity suite (simulator, training, fallback, wrapper, FAISS, GPTCache)
 results/        benchmark output + honest write-ups (RESULTS.md, ABLATIONS.md)
 ```
+
+The full paper (methods, threats to validity, discussion, figures) is
+published separately on arXiv rather than tracked in this repo; this
+README + `results/RESULTS.md` + `results/ABLATIONS.md` are the
+code-adjacent source of truth for the same findings.
 
 ## Known limitations
 
