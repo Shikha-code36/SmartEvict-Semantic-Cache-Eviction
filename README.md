@@ -228,7 +228,7 @@ pip install "smartevict[all] @ git+https://github.com/Shikha-code36/SmartEvict-S
 
 # or, if you already have a local clone
 git clone https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction.git
-cd SmartEvict-Sementic-Cache-Eviction
+cd SmartEvict-Semantic-Cache-Eviction
 pip install -e .              # core package (numpy only)
 pip install -e ".[all]"       # + faiss, LMSYS download, MiniLM, GPTCache adapter
 ```
