@@ -2,10 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![DOI](https://img.shields.io/badge/DOI-Coming%20Soon-lightgrey)
 ![Release](https://img.shields.io/badge/Release-v1.0.0-blue)
-![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-lightgrey)
-![CI](https://img.shields.io/badge/CI-Coming%20Soon-lightgrey)
 
 > An empirical study of learned and heuristic eviction policies for semantic LLM caches.
 
@@ -13,10 +10,10 @@
 
 **SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches**
 
-- PDF: coming soon
-- arXiv: coming soon
-- DOI: coming soon
+- PDF: https://drive.google.com/file/d/1EnGuYpiVOOcwPKHPfIG_dDh7rOxb87ZY/view
 - Citation metadata: [CITATION.cff](CITATION.cff)
+
+SmartEvict evaluates how semantic LLM cache eviction policies behave when costs and reuse are explicitly modeled. The paper compares learned eviction against heuristic baselines, shows how cost-aware decisions improve regeneration-token savings, and packages the findings in a reproducible benchmark suite.
 
 ## Overview
 
