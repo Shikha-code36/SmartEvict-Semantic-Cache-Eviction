@@ -43,12 +43,12 @@ considering:
 -   Semantic reuse patterns
 -   Response size
 
-### Benefits
+### Design Goals
 
--   Higher regeneration-token savings
--   Lower latency
--   Reduced LLM cost
--   Safe fallback to classical LRU
+-   Increase regeneration-token savings
+-   Incorporate regeneration cost into eviction decisions
+-   Keep learned-policy inference lightweight
+-   Provide deterministic LRU fallback
 
 ------------------------------------------------------------------------
 
@@ -171,7 +171,8 @@ It follows a Cold-RL-style pattern (arXiv:2508.12485: K-tail candidate
 sampling + tiny dueling network + hard fallback to a classical policy),
 trains offline on replayed traces, is safe by default (falls back to LRU
 exactly if the model is absent or errors), and is benchmarked honestly
-against LRU/FIFO and a clairvoyant oracle rather than against itself.
+against LRU, FIFO, GDSF, CostWeightedRecency, and a clairvoyant oracle
+rather than against itself.
 
 Scope note: this project decides **which cached entries to keep warm**. It
 deliberately does *not* touch semantic-match correctness (whether a cached
@@ -211,9 +212,9 @@ over the learned policy tracks a measurable workload property** — the
 fraction of eviction candidates never previously reused — consistently
 across all three real traces, with cache pressure as a second,
 independent factor. `./reproduce.sh` regenerates every table behind this
-finding from scratch. A full write-up (methods, threats to validity,
-discussion) is available as a preprint: *link to be added on arXiv
-publication.*
+finding from scratch. A full write-up covering the methodology,
+experiments, threats to validity, and discussion is available in the
+[SmartEvict preprint](https://doi.org/10.5281/zenodo.21553138).
 
 ## Installation
 
@@ -438,9 +439,10 @@ results/        benchmark output + honest write-ups (RESULTS.md, ABLATIONS.md)
 ```
 
 The full paper (methods, threats to validity, discussion, figures) is
-published separately on arXiv rather than tracked in this repo; this
-README + `results/RESULTS.md` + `results/ABLATIONS.md` are the
-code-adjacent source of truth for the same findings.
+available as a Zenodo preprint:
+https://doi.org/10.5281/zenodo.21553138. This README +
+`results/RESULTS.md` + `results/ABLATIONS.md` are the code-adjacent source
+of truth for the same findings.
 
 ## Known limitations
 
