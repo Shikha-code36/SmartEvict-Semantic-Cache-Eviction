@@ -17,7 +17,7 @@ SmartEvict evaluates how semantic LLM cache eviction policies behave when costs 
 
 ## Overview
 
-SmartEvict studies how semantic LLM caches can retain the most valuable entries under limited capacity by combining learned and heuristic eviction policies. The repository provides a reproducible reference implementation and benchmark suite for the paper's main finding: cost-aware eviction consistently outperforms recency-only policies.
+SmartEvict evaluates how semantic LLM caches can retain the most valuable entries under limited capacity by comparing learned and heuristic eviction policies. The repository provides a reproducible reference implementation and benchmark suite for the paper's main finding: the paper analyzes when each approach performs best and when cost-aware eviction outperforms recency-only policies.
 
 ------------------------------------------------------------------------
 
