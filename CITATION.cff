@@ -2,13 +2,18 @@ cff-version: 1.2.0
 message: "If you use this software in your research, please cite it."
 title: "SmartEvict"
 type: software
+
 authors:
   - family-names: Pandey
     given-names: Shikha
+
 repository-code: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
 url: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
+
 license: MIT
-version: 1.0.0
+version: 1.0.1
 date-released: 2026-07-25
+
 abstract: >-
-  SmartEvict is a reproducible implementation and benchmark suite for learned and heuristic eviction policies for semantic LLM caches.
+  SmartEvict is a reproducible implementation and benchmark suite for learned
+  and heuristic eviction policies for semantic LLM caches.
