@@ -2,7 +2,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Release](https://img.shields.io/badge/Release-v1.0.0-blue)
+![Release](https://img.shields.io/badge/Release-v1.0.1-blue)
+![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21552897-blue)
 
 > An empirical study of learned and heuristic eviction policies for semantic LLM caches.
 
