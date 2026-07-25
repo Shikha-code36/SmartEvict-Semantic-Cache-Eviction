@@ -3,18 +3,25 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Release](https://img.shields.io/badge/Release-v1.0.1-blue)
-![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21552897-blue)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21553138.svg)](https://doi.org/10.5281/zenodo.21553138)
 
-> An empirical study of learned and heuristic eviction policies for semantic LLM caches.
+> Research artifact accompanying the SmartEvict preprint: a reproducible software and benchmark suite for learned and heuristic cost-aware eviction policies in semantic LLM caches.
 
-## Paper
+## 📄 Paper
 
 **SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches**
 
-- PDF: https://drive.google.com/file/d/1EnGuYpiVOOcwPKHPfIG_dDh7rOxb87ZY/view
-- Citation metadata: [CITATION.cff](CITATION.cff)
+The accompanying preprint presents the methodology, experiments, results, and analysis behind SmartEvict.
 
-SmartEvict evaluates how semantic LLM cache eviction policies behave when costs and reuse are explicitly modeled. The paper compares learned eviction against heuristic baselines, shows how cost-aware decisions improve regeneration-token savings, and packages the findings in a reproducible benchmark suite.
+- **Preprint:** [Zenodo](https://doi.org/10.5281/zenodo.21553138)
+- **DOI:** [10.5281/zenodo.21553138](https://doi.org/10.5281/zenodo.21553138)
+- **Version:** v1
+- **Published:** July 25, 2026
+
+> Semantic LLM caches require effective eviction policies to manage limited capacity while minimizing regeneration cost. Most deployed systems rely on simple recency-based heuristics such as LRU or FIFO. Recent work suggests that learned, cost-aware eviction policies could outperform these baselines, but it remains unclear whether such policies outperform strong cost-aware heuristics under realistic conversational workloads.  
+> We present SmartEvict, a learned cost-aware semantic cache eviction policy, and perform an extensive empirical evaluation against LRU, FIFO, GDSF, and CostWeightedRecency across synthetic workloads and three real conversational traces (LMSYS-Chat-1M, WildChat-1M, and a customer-support corpus).  
+> Across all evaluated workloads, cost-aware policies—learned and heuristic alike—consistently outperform recency-only baselines. However, strong cost-aware heuristics, particularly GDSF, remain highly competitive with and frequently exceed the learned policy. Across the evaluated real-world datasets, we observe a consistent monotonic relationship between a workload’s reuse density (measured as the fraction of eviction candidates never previously reused) and the relative advantage of the heuristic policy. We additionally identify cache pressure as a second, partially understood axis that can shift this relationship independently of reuse density.  
+> These results suggest that selecting a semantic cache eviction policy should depend on measurable workload characteristics rather than assuming that learned policies universally dominate heuristic approaches. We find that strong cost-aware heuristics remain difficult to surpass, and identify measurable workload characteristics associated with their advantage—providing empirical guidance for policy selection in semantic caching systems.
 
 ## Overview
 
@@ -502,12 +509,16 @@ This project builds upon ideas and tools from the following works:
 
 ## Citation
 
-If you use SmartEvict in your research or build upon this project, please consider citing it.
+If you use SmartEvict in your research or build upon this project, please cite the accompanying preprint:
+
+> Pandey, Shikha. (2026). *SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches* (Version v1). Zenodo. https://doi.org/10.5281/zenodo.21553138
 
 ```bibtex
-@software{smartevict2026,
-  title   = {SmartEvict: A Learned Cost-Aware Eviction Policy for Semantic LLM Caches},
-  author  = {Shikha Pandey},
-  year    = {2026},
-  url     = {https://github.com/Shikha-code36/SmartEvict-Sementic-Cache-Eviction}
+@misc{pandey2026smartevict,
+  author    = {Shikha Pandey},
+  title     = {SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {v1},
+  doi       = {10.5281/zenodo.21553138}
 }

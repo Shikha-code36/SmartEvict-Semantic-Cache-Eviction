@@ -1,20 +1,44 @@
 cff-version: 1.2.0
-message: "If you use this software in your research, please cite it."
-title: "SmartEvict"
+message: "If you use SmartEvict in your research, please cite the accompanying preprint."
+title: "SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches"
 type: software
+version: v1
 
 authors:
   - family-names: Pandey
     given-names: Shikha
+    orcid: https://orcid.org/0009-0009-9311-3648
 
 repository-code: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
 url: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
-doi: 10.5281/zenodo.21552897
+doi: 10.5281/zenodo.21553138
 
-license: MIT
-version: 1.0.1
 date-released: 2026-07-25
+license: MIT
 
 abstract: >-
-  SmartEvict is a reproducible implementation and benchmark suite for learned
-  and heuristic eviction policies for semantic LLM caches.
+  Semantic LLM caches require effective eviction policies to manage limited
+  capacity while minimizing regeneration cost. Most deployed systems rely on
+  simple recency-based heuristics such as LRU or FIFO. Recent work suggests
+  that learned, cost-aware eviction policies could outperform these baselines,
+  but it remains unclear whether such policies outperform strong cost-aware
+  heuristics under realistic conversational workloads. We present SmartEvict, a
+  learned cost-aware semantic cache eviction policy, and perform an extensive
+  empirical evaluation against LRU, FIFO, GDSF, and CostWeightedRecency across
+  synthetic workloads and three real conversational traces (LMSYS-Chat-1M,
+  WildChat-1M, and a customer-support corpus). Across all evaluated workloads,
+  cost-aware policies—learned and heuristic alike—consistently outperform
+  recency-only baselines. However, strong cost-aware heuristics, particularly
+  GDSF, remain highly competitive with and frequently exceed the learned policy.
+  Across the evaluated real-world datasets, we observe a consistent monotonic
+  relationship between a workload’s reuse density (measured as the fraction of
+  eviction candidates never previously reused) and the relative advantage of
+  the heuristic policy. We additionally identify cache pressure as a second,
+  partially understood axis that can shift this relationship independently of
+  reuse density. These results suggest that selecting a semantic cache eviction
+  policy should depend on measurable workload characteristics rather than
+  assuming that learned policies universally dominate heuristic approaches. We
+  find that strong cost-aware heuristics remain difficult to surpass, and
+  identify measurable workload characteristics associated with their
+  advantage—providing empirical guidance for policy selection in semantic
+  caching systems.
