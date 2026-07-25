@@ -11,5 +11,7 @@ data/bitext_trace.json
 smartevict/data/lmsys_trace.json
 faiss.index
 sqlite.db
+sqlite/
+sqlite
 *.egg-info/
 paper/

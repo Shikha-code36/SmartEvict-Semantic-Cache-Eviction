@@ -1,12 +1,26 @@
 # SmartEvict
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![NumPy](https://img.shields.io/badge/NumPy-Scientific%20Computing-green)
-![FAISS](https://img.shields.io/badge/FAISS-Vector%20Search-orange)
-![GPTCache](https://img.shields.io/badge/GPTCache-Compatible-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+![DOI](https://img.shields.io/badge/DOI-Coming%20Soon-lightgrey)
+![Release](https://img.shields.io/badge/Release-v1.0.0-blue)
+![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-lightgrey)
+![CI](https://img.shields.io/badge/CI-Coming%20Soon-lightgrey)
 
-> A learned, cost-aware eviction policy for semantic LLM caches.
+> An empirical study of learned and heuristic eviction policies for semantic LLM caches.
+
+## Paper
+
+**SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches**
+
+- PDF: coming soon
+- arXiv: coming soon
+- DOI: coming soon
+- Citation metadata: [CITATION.cff](CITATION.cff)
+
+## Overview
+
+SmartEvict studies how semantic LLM caches can retain the most valuable entries under limited capacity by combining learned and heuristic eviction policies. The repository provides a reproducible reference implementation and benchmark suite for the paper's main finding: cost-aware eviction consistently outperforms recency-only policies.
 
 ------------------------------------------------------------------------
 
@@ -34,6 +48,10 @@ considering:
 ------------------------------------------------------------------------
 
 ## Architecture
+
+![Architecture of SmartEvict](paper/figures/fig1_architecture.png)
+
+The figure above summarizes the end-to-end flow from a user query to cache hit/miss handling and eviction decisions.
 
 ``` text
                   User Query
@@ -192,18 +210,18 @@ finding from scratch. A full write-up (methods, threats to validity,
 discussion) is available as a preprint: *link to be added on arXiv
 publication.*
 
-## Install
+## Installation
 
 Not published on PyPI (still under active benchmarking/validation) — install
 straight from GitHub or a local clone:
 
 ```bash
 # directly from GitHub, no clone needed
-pip install "git+https://github.com/Shikha-code36/SmartEvict-Sementic-Cache-Eviction.git"
-pip install "smartevict[all] @ git+https://github.com/Shikha-code36/SmartEvict-Sementic-Cache-Eviction.git"
+pip install "git+https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction.git"
+pip install "smartevict[all] @ git+https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction.git"
 
 # or, if you already have a local clone
-git clone https://github.com/Shikha-code36/SmartEvict-Sementic-Cache-Eviction.git
+git clone https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction.git
 cd SmartEvict-Sementic-Cache-Eviction
 pip install -e .              # core package (numpy only)
 pip install -e ".[all]"       # + faiss, LMSYS download, MiniLM, GPTCache adapter
@@ -212,7 +230,7 @@ pip install -e ".[all]"       # + faiss, LMSYS download, MiniLM, GPTCache adapte
 Extras are also installable individually: `.[faiss]`, `.[lmsys]`, `.[minilm]`,
 `.[gptcache]`.
 
-## Quickstart — use the wrapper
+## Quick Start
 
 ```python
 from smartevict.features.embeddings import HashingEmbedder   # or your own embed fn
@@ -245,7 +263,9 @@ from smartevict.features.embeddings import sentence_transformers_embedder
 cache = LearnedSemanticCache(embedding_fn=sentence_transformers_embedder(), ...)
 ```
 
-## Quickstart — use it inside GPTCache
+## Advanced Usage
+
+### Use it inside GPTCache
 
 Already using [GPTCache](https://github.com/zilliztech/GPTCache)? You don't
 need to switch caching libraries to try this — GPTCache's own eviction
@@ -282,7 +302,7 @@ without it, cost defaults to a flat value and the policy degrades to a
 recency/frequency-only signal (still safe — falls back to plain LRU
 exactly if the model is missing or errors, same as the standalone wrapper).
 
-## Reproduce the benchmark
+## Benchmarks
 
 ```bash
 pip install -e ".[all]"
@@ -302,6 +322,10 @@ so it's safe to rerun after an interruption (e.g. while waiting on
 LMSYS-Chat-1M's Hugging Face access approval, see below). See
 [datasets.md](datasets.md) for what each of the four evaluated workloads
 is and how to get it individually.
+
+## Datasets
+
+The benchmark covers four workloads: a synthetic trace, LMSYS-Chat-1M, WildChat-1M, and a Bitext customer-support trace. See [datasets.md](datasets.md) for dataset descriptions, preprocessing notes, and download commands.
 
 ### Run on real data (LMSYS-Chat-1M)
 
