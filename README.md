@@ -49,7 +49,7 @@ considering:
 
 ## Architecture
 
-![Architecture of SmartEvict](paper/figures/fig1_architecture.png)
+![Architecture of SmartEvict](figures/fig1_architecture.png)
 
 The figure above summarizes the end-to-end flow from a user query to cache hit/miss handling and eviction decisions.
 
