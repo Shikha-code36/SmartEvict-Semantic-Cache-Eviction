@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use SmartEvict in your research, please cite the accompanying preprint."
 title: "SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches"
 type: software
-version: v1
+version: v2.0.0
 
 authors:
   - family-names: Pandey
@@ -11,9 +11,9 @@ authors:
 
 repository-code: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
 url: https://github.com/Shikha-code36/SmartEvict-Semantic-Cache-Eviction
-doi: 10.5281/zenodo.21552897
+doi: 10.5281/zenodo.21643295
 
-date-released: 2026-07-25
+date-released: 2026-07-28
 license: MIT
 
 abstract: >-

@@ -2,8 +2,8 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Release](https://img.shields.io/badge/Release-v1.0.1-blue)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21553138.svg)](https://doi.org/10.5281/zenodo.21553138)
+![Release](https://img.shields.io/badge/Release-v2.0.0-blue)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21643364.svg)](https://doi.org/10.5281/zenodo.21643364)
 
 > Research artifact accompanying the SmartEvict preprint: a reproducible software and benchmark suite for learned and heuristic cost-aware eviction policies in semantic LLM caches.
 
@@ -13,10 +13,10 @@
 
 The accompanying preprint presents the methodology, experiments, results, and analysis behind SmartEvict.
 
-- **Preprint:** [Zenodo](https://doi.org/10.5281/zenodo.21553138)
-- **DOI:** [10.5281/zenodo.21553138](https://doi.org/10.5281/zenodo.21553138)
-- **Version:** v1
-- **Published:** July 25, 2026
+- **Preprint:** [Zenodo](https://doi.org/10.5281/zenodo.21643364)
+- **DOI:** [10.5281/zenodo.21643364](https://doi.org/10.5281/zenodo.21643364)
+- **Version:** v2
+- **Published:** July 28, 2026
 
 > Semantic LLM caches require effective eviction policies to manage limited capacity while minimizing regeneration cost. Most deployed systems rely on simple recency-based heuristics such as LRU or FIFO. Recent work suggests that learned, cost-aware eviction policies could outperform these baselines, but it remains unclear whether such policies outperform strong cost-aware heuristics under realistic conversational workloads.  
 > We present SmartEvict, a learned cost-aware semantic cache eviction policy, and perform an extensive empirical evaluation against LRU, FIFO, GDSF, and CostWeightedRecency across synthetic workloads and three real conversational traces (LMSYS-Chat-1M, WildChat-1M, and a customer-support corpus).  
@@ -214,7 +214,7 @@ across all three real traces, with cache pressure as a second,
 independent factor. `./reproduce.sh` regenerates every table behind this
 finding from scratch. A full write-up covering the methodology,
 experiments, threats to validity, and discussion is available in the
-[SmartEvict preprint](https://doi.org/10.5281/zenodo.21553138).
+[SmartEvict preprint](https://doi.org/10.5281/zenodo.21643364).
 
 ## Installation
 
@@ -440,7 +440,7 @@ results/        benchmark output + honest write-ups (RESULTS.md, ABLATIONS.md)
 
 The full paper (methods, threats to validity, discussion, figures) is
 available as a Zenodo preprint:
-https://doi.org/10.5281/zenodo.21553138. This README +
+https://doi.org/10.5281/zenodo.21643364. This README +
 `results/RESULTS.md` + `results/ABLATIONS.md` are the code-adjacent source
 of truth for the same findings.
 
@@ -513,7 +513,7 @@ This project builds upon ideas and tools from the following works:
 
 If you use SmartEvict in your research or build upon this project, please cite the accompanying preprint:
 
-> Pandey, Shikha. (2026). *SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches* (Version v1). Zenodo. https://doi.org/10.5281/zenodo.21553138
+> Pandey, Shikha. (2026). *SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches* (Version v2.0.0). Zenodo. https://doi.org/10.5281/zenodo.21643364
 
 ```bibtex
 @misc{pandey2026smartevict,
@@ -521,6 +521,6 @@ If you use SmartEvict in your research or build upon this project, please cite t
   title     = {SmartEvict: An Empirical Study of Learned and Heuristic Eviction Policies for Semantic LLM Caches},
   year      = {2026},
   publisher = {Zenodo},
-  version   = {v1},
-  doi       = {10.5281/zenodo.21553138}
+  version   = {v2.0.0},
+  doi       = {10.5281/zenodo.21643364}
 }
