@@ -1,3 +1,24 @@
+# Release v2.0.0
+
+## Summary
+
+Version 2 is a research update to the accompanying manuscript, strengthening its scholarly positioning and statistical grounding. The empirical findings, methodology, and conclusions from v1 are unchanged; this release adds the context and rigor a peer-review process would expect around them.
+
+## Highlights
+
+- Added a comprehensive Related Work section, positioning SmartEvict against classical cache eviction (LRU-K, 2Q, ARC, LIRS, GDSF), learned cache eviction (Cold-RL, Learning Relaxed Belady), semantic response caches (GPTCache), and KV-cache eviction in LLM serving (StreamingLLM, H2O, Scissorhands, vLLM, SGLang).
+- Expanded the Discussion with a dedicated caveat on embedding-model choice, surfacing a limitation that previously lived only in Threats to Validity.
+- Added a compact feature/architecture ablation table (Table 4) directly in the manuscript, alongside the existing full ablation write-up in `results/ABLATIONS.md`.
+- Added a statistical significance check (paired t-test) supporting the "statistically tied" reading of the WildChat-1M three-way comparison.
+- Substantially expanded the bibliography to properly cite every system and prior work discussed in Related Work.
+- Minor wording refinements for precision (e.g., the abstract's characterization of the reuse-density relationship now explicitly notes it is drawn from three real-world traces).
+
+## Notes
+
+- No changes to the simulator, policies, training pipeline, or reported experimental results — this release is limited to the manuscript's framing, citations, and statistical support.
+
+---
+
 # Release v1.0.0
 
 ## Summary
